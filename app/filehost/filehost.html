@@ -1,0 +1,129 @@
+<div class="container">
+    <modal title="Notes" visible="showModalNotes">
+        <form role="form" ng-submit="saveNotes()">
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="note in notesList">
+                    <div class="input-group" ng-class="{ hidden:note.IsDeleted }">
+                        <input type="text" ng-change="note.isChange=true" class="form-control" id="noteText"
+                               ng-model="note.Item"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="note.IsDeleted=true" type="button">X</button>>
+                    </span>
+                    </div>
+                </li>
+            </ul>
+            <button type="button" ng-click="addNote()" class="btn btn-default">Add</button>
+            <button type="submit" class="btn btn-default">Save</button>
+            <button type="button" ng-click="cancelNotes()" class="btn btn-default">Cancel</button>
+            <button type="button" ng-click="showNotes()" class="btn btn-default">Close</button>
+        </form>
+    </modal>
+</div>
+
+<!--<div ng-show="fsErrorText.length>0" class="container alert alert-warning" role="alert"></div>-->
+<div ng-show="fsErrorText.length>0" class="container alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    {{fsErrorText}}
+</div>
+
+
+<div class="panel panel-default">
+    <div class="btn-group">
+        <button ng-click="query()" class="btn btn-default">
+            <span class="glyphicon glyphicon-refresh"> Refresh</span>
+        </button>
+    </div>
+
+    <div class="btn-group">
+        <div class="form-inline">
+            <input type="text" class="container form-control" id="newFolder"
+                   ng-model="newFolderName" placeholder="Folder name..."/>
+            <button class="btn btn-default" ng-click="addFolder()" type="button">Add</button>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <label class="checkbox-inline">
+            <input type="checkbox" ng-model="enableWebsocket" ng-change="toggleWebsocket()">
+            Enable Websocket
+        </label>
+    </div>
+</div>
+
+
+<div class="container">
+    <p class="pull-right">
+        <button type="button" ng-click="(currentPage>0) ? prevPage():undefined" class="btn btn-default btn-xs"><< Prev
+        </button>
+        <!--<button type="button" ng-click="(itemsList.length>=(pageSize-deletedItems)) ? nextPage():undefined"-->
+        <button type="button" ng-click="(itemsList.length>0) ? nextPage():undefined"
+                class="btn btn-default btn-xs">Next >>
+        </button>
+        <span>{{currentPage+1}}</span>
+    </p>
+    <h6>(Double click to edit Name or Description)</h>
+        <table class="table table-condensed">
+            <tr>
+                <th>ID</th>
+                <th></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Notes</th>
+                <th>Items</th>
+                <th>CreatedDate</th>
+                <th>Delete</th>
+            </tr>
+            <tr ng-repeat="item in itemsList">
+                <td>{{item.ItemObject.Id}}</td>
+                <td>
+                    <span class="glyphicon"
+                          ng-class="isFolder(item.ItemObject) ? 'glyphicon-folder-open' : 'glyphicon-file'"></span>
+                </td>
+                <td ng-dblclick="rename(item)">
+                    <form ng-submit="rename(item)">
+                        <div ng-hide="editorEnabled">
+                            <span>{{item.ItemObject.Name}}</span>
+                        </div>
+                        <div ng-show="editorEnabled">
+                            <input ng-model="item.ItemObject.Name"/>
+                        </div>
+                    </form>
+                </td>
+                <td ng-dblclick="editDescription(item)">
+                    <form ng-submit="editDescription(item)">
+                        <div ng-hide="editorEnabledDescr">
+                            <span>{{item.ItemObject.Description}}</span>
+                        </div>
+                        <div ng-show="editorEnabledDescr">
+                            <input ng-model="item.ItemObject.Description"/>
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    <button type="button" ng-click="showNotes(item)" class="btn btn-default btn-xs">
+                        <!--ng-class="item.Notes.length > 0 ? 'visible' : 'hidden'"-->
+                        <span class="glyphicon glyphicon-list-alt"
+                              aria-hidden="true"> {{item.ItemObject.Notes.length}}</span>
+                    </button>
+                </td>
+                <td>{{item.ItemObject.Items.length}}</td>
+                <td>{{item.ItemObject.CreatedDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>
+                    <!--<button type="button" ng-click="rename(item)" class="btn btn-default btn-xs">Rename</button>-->
+                    <button type="button" ng-click="item.Delete()" class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"/>
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <!--<div>-->
+            <!--<label for="file">Upload File</label>-->
+            <!--<input type="file" ng-model="selectedFile" name="file" base-sixty-four-input>-->
+            <!--<button type="submit" ng-click="uploadFile()">Submit</button>-->
+        <!--</div>-->
+
+        <div>
+            <input type="file" file-model="myFile"/>
+            <button type="submit" ng-click="newUpload()">Upload</button>
+        </div>
+</div>
