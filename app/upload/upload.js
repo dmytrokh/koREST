@@ -1,6 +1,3 @@
-/**
- * Created by Dmitry on 09.12.2014.
- */
 'use strict';
 
 angular.module('upload', ['ngRoute'])

@@ -1,0 +1,19 @@
+{
+  "name": "srv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.13.3",
+    "morgan": "^1.6.1",
+    "open": "0.0.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "postinstall": "bower install",
+    "prestart": "npm install",
+    "start": "node web.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

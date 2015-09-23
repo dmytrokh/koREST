@@ -1,7 +1,3 @@
-/**
- * Created by Dmitry on 07.12.2014.
- */
-
 'use strict';
 
 angular.module('kocloud', ['ngResource'])
